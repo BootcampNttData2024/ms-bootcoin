@@ -1,0 +1,335 @@
+openapi: '3.0.2'
+info:
+  title: Microservice PeerToPeer - OpenAPI 3.0
+  version: '1.0'
+  description: |- 
+    La presente especificación contiene los endpoints del microservicio PeerToPeer
+    y esta basado en la especificación OpenAPI 3.0.  
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: alcibarvasquez@gmail.com
+servers:
+  - url: http://localhost:8091
+
+tags:
+  - name: PeerToPeer
+    description: peerToPeer
+  - name: Purchase
+    description: purchase
+  - name: PurchaseSaleRate
+    description: purchaseSaleRate
+  - name: Sale
+    description: Sales
+
+paths:  
+  /peer-to-peer:
+    post:
+      tags:
+        - PeerToPeer
+      operationId: addPeerToPeer
+      description: 'POST'
+      requestBody:
+        $ref: '#/components/requestBodies/PeerToPeerModel'
+      responses:
+        '200':
+          description: 'response peerToPeer post'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeerToPeerModel'      
+  /peer-to-peer/{peerToPeerId}:
+    put:
+      tags:
+        - PeerToPeer
+      operationId: updatePeerToPeer
+      description: 'PUT'
+      parameters:
+        - in: path
+          name: peerToPeerId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/PeerToPeerModel'
+      responses:
+        '200':
+          description: 'response peerToPeer put'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeerToPeerModel'
+    get:
+      tags:
+        - PeerToPeer
+      operationId: getPeerToPeerById
+      description: GET
+      parameters:
+        - in: path
+          name: peerToPeerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'response get peerToPeer by id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeerToPeerModel'
+  /peer-to-peer/filter:  
+    get:
+      tags:
+        - PeerToPeer
+      operationId: getPeerToPeerByPhoneNumber
+      description: GET
+      parameters:
+        - in: query
+          name: phoneNumber
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'response get yanki by id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeerToPeerModel'  
+  /purchase:
+    post:
+      tags:
+        - Purchase
+      operationId: addPurchase
+      description: 'POST'
+      requestBody:
+        $ref: '#/components/requestBodies/PurchaseModel'
+      responses:
+        '200':
+          description: 'response purchase post'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseModel'      
+  /purchase/{purchaseId}:
+    put:
+      tags:
+        - Purchase
+      operationId: updatePurchase
+      description: 'PUT'
+      parameters:
+        - in: path
+          name: purchaseId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/PurchaseModel'
+      responses:
+        '200':
+          description: 'response purchase put'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseModel'
+    get:
+      tags:
+        - Purchase
+      operationId: getPurchaseById
+      description: GET
+      parameters:
+        - in: path
+          name: purchaseId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'response get purchase by id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseModel'
+  /purchase-sale-rate:
+    post:
+      tags:
+        - PurchaseSaleRate
+      operationId: addPurchaseSaleRate
+      description: 'POST'
+      requestBody:
+        $ref: '#/components/requestBodies/PurchaseSaleRateModel'
+      responses:
+        '200':
+          description: 'response purchase sale rate post'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseSaleRateModel'      
+  /purchase-sale-rate/{purchaseSaleRateId}:
+    put:
+      tags:
+        - PurchaseSaleRate
+      operationId: updatePurchaseSaleRate
+      description: 'PUT'
+      parameters:
+        - in: path
+          name: purchaseSaleRateId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/PurchaseSaleRateModel'
+      responses:
+        '200':
+          description: 'response purchase sale rate put'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseSaleRateModel'
+    get:
+      tags:
+        - PurchaseSaleRate
+      operationId: getPurchaseSaleRateById
+      description: GET
+      parameters:
+        - in: path
+          name: purchaseSaleRateId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'response get purchase sale rate by id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseSaleRateModel'
+  /sale/{phoneNumber}:
+    patch:
+      tags:
+        - Sale
+      operationId: updateSale
+      description: 'PATCH'
+      parameters:
+        - in: path
+          name: phoneNumber
+          required: true
+          schema:
+            type: string  
+        - in: query
+          name: saleId
+          required: true
+          schema:
+            type: string     
+      responses:
+        '200':
+          description: 'response purchase sale rate put'
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+components:
+  schemas:    
+    PeerToPeerModel:
+      type: object
+      description: PeerToPeer model
+      required:
+        - documentType
+        - documentNumber
+        - phoneNumber
+      properties:
+        peerToPeerId:
+          type: string
+          example: '1'
+        documentType:
+          type: string
+          example: 'DNI, CE'  
+        documentNumber:
+          type: string
+          example: '71258452'  
+        phoneNumber:
+          type: string
+          example: '924152365'
+        email:
+          type: string
+          example: 'alcibar@gmail.com'
+        pendingSales:
+          type: array
+          items:
+            type: string          
+        hasYankiAccount:
+          type: boolean
+          example: true
+    PurchaseModel:
+      type: object
+      description: Purchase model
+      required:
+        - phoneNumber
+        - purchaseAmount
+        - paymentMethod
+      properties:
+        purchaseId:
+          type: string
+          example: '1'
+        transactionNumber:
+          type: string
+          example: '1'
+        fromPhoneNumber:
+          type: string
+          example: '1'
+        toPhoneNumber:
+          type: string
+          example: '1'
+        purchaseAmount:
+          type: number
+          format: double
+          example: 1.0
+        paymentMethod:
+          type: string
+          example: 'YANKI, TRANSFER'  
+    PurchaseSaleRateModel:
+      type: object
+      description: Purchase model
+      required:
+        - originCurrency
+        - targetCurrency
+        - salePrice
+        - purchasePrice
+      properties:
+        purchaseSaleRateId:
+          type: string
+          example: '1'
+        originCurrency:
+          type: string
+          example: 'BOOTCOIN'
+        targetCurrency:
+          type: string
+          example: 'SOL'
+        salePrice:
+          type: number
+          format: double
+          example: 1.0
+        purchasePrice:
+          type: number
+          format: double
+          example: 1.0
+
+  requestBodies:
+    PeerToPeerModel:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PeerToPeerModel'
+    PurchaseModel:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PurchaseModel'
+    PurchaseSaleRateModel:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PurchaseSaleRateModel'
